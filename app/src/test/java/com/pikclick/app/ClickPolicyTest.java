@@ -8,19 +8,19 @@ import static org.junit.Assert.assertTrue;
 
 public class ClickPolicyTest {
     @Test public void acceptsBoundaryDelays() {
-        assertTrue(ClickPolicy.INSTANCE.isValidDelay(3f));
-        assertTrue(ClickPolicy.INSTANCE.isValidDelay(10f));
+        assertTrue(ClickPolicy.INSTANCE.isValidDelay(0.1f));
+        assertTrue(ClickPolicy.INSTANCE.isValidDelay(60f));
     }
 
     @Test public void rejectsOutOfRangeAndNonFiniteDelays() {
-        assertFalse(ClickPolicy.INSTANCE.isValidDelay(2.9f));
-        assertFalse(ClickPolicy.INSTANCE.isValidDelay(10.1f));
+        assertFalse(ClickPolicy.INSTANCE.isValidDelay(0.09f));
+        assertFalse(ClickPolicy.INSTANCE.isValidDelay(60.1f));
         assertFalse(ClickPolicy.INSTANCE.isValidDelay(Float.NaN));
     }
 
     @Test public void normalizesUnsafeDelays() {
-        assertEquals(3f, ClickPolicy.INSTANCE.safeDelay(-1f), 0f);
-        assertEquals(10f, ClickPolicy.INSTANCE.safeDelay(99f), 0f);
+        assertEquals(0.1f, ClickPolicy.INSTANCE.safeDelay(-1f), 0f);
+        assertEquals(60f, ClickPolicy.INSTANCE.safeDelay(99f), 0f);
         assertEquals(3.5f, ClickPolicy.INSTANCE.safeDelay(Float.NaN), 0f);
     }
 

@@ -6,8 +6,8 @@ object ClickSettings {
     private const val PREFS_NAME = "click_settings"
     private const val KEY_DELAY_SECONDS = "delay_seconds"
     const val DEFAULT_DELAY_SECONDS = 3.5f
-    const val MIN_DELAY_SECONDS = 3f
-    const val MAX_DELAY_SECONDS = 10f
+    const val MIN_DELAY_SECONDS = 0.1f
+    const val MAX_DELAY_SECONDS = 60f
     private const val KEY_BUBBLE_X = "bubble_x"
     private const val KEY_BUBBLE_Y = "bubble_y"
 

@@ -27,7 +27,7 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 ### 功能特色
 
 - **精準定位**：自由拖曳懸浮圓點，位置會保存在裝置本機。
-- **可調延遲**：支援 3.0–10.0 秒，預設 3.5 秒。
+- **可調延遲**：支援 0.1–60.0 秒，預設 3.5 秒。
 - **清楚狀態**：圓點直接顯示倒數、完成、失敗與取消狀態。
 - **可隨時取消**：倒數中再次點擊圓點即可取消，舊 callback 不會干擾新流程。
 - **每次採用當下位置**：第二次點擊會重新讀取圓點中心；撤銷權限或服務終止會取消序列。
@@ -93,7 +93,7 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 
 ### What is PikClick?
 
-PikClick is an Android utility that places a draggable floating button over other apps. Tap it once to perform the first tap immediately, wait 3–10 seconds, and perform the second tap at the button center at that moment. You may move the button or rotate the screen during the countdown to choose a new position. Every sequence requires an explicit user action. PikClick does not read on-screen text and does not request network access.
+PikClick is an Android utility that places a draggable floating button over other apps. Tap it once to perform the first tap immediately, wait 0.1–60.0 seconds, and perform the second tap at the button center at that moment. You may move the button or rotate the screen during the countdown to choose a new position. Every sequence requires an explicit user action. PikClick does not read on-screen text and does not request network access.
 
 > [!WARNING]
 > Never place the button over payment, purchase, delete, submit, authorization, or other irreversible controls. You are responsible for verifying the result of every tap.
@@ -101,7 +101,7 @@ PikClick is an Android utility that places a draggable floating button over othe
 ### Features
 
 - **Precise placement** — drag the floating button anywhere; its position is stored locally.
-- **Adjustable delay** — choose 3.0–10.0 seconds; the default is 3.5 seconds.
+- **Adjustable delay** — choose 0.1–60.0 seconds; the default is 3.5 seconds.
 - **Visible state** — countdown, completion, cancellation, and failure are shown on the button.
 - **Safe cancellation** — tap again during a countdown to cancel; stale callbacks cannot affect a new sequence.
 - **Current position per tap** — the second tap re-reads the button center; revoking permission or terminating the service cancels the sequence.

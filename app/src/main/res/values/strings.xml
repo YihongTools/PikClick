@@ -16,7 +16,7 @@
     <string name="enabled">已啟用</string>
     <string name="enable">去啟用</string>
     <string name="enter_seconds">請輸入秒數</string>
-    <string name="seconds_range">秒數需介於 %1$d 到 %2$d 秒</string>
+    <string name="seconds_range">秒數需介於 %1$.1f 到 %2$.1f 秒</string>
     <string name="seconds_applied">秒數已套用</string>
     <string name="accessibility_disclosure_title">啟用無障礙點擊服務</string>
     <string name="accessibility_disclosure_message">PikClick 只在你點選懸浮圓點後，於每次點擊當下的圓點中心執行手勢。倒數期間可移動圓點，第二次點擊會使用新位置。App 不讀取畫面文字或內容，也不會自行開始。</string>
@@ -26,7 +26,7 @@
     <string name="bubble_clicking">點擊</string>
     <string name="bubble_completed">完成</string>
     <string name="bubble_failed">失敗</string>
-    <string name="bubble_countdown">%1$d秒</string>
+    <string name="bubble_countdown">%1$.1f秒</string>
     <string name="sequence_cancelled">已取消</string>
     <string name="enable_accessibility_first">請先啟用無障礙點擊服務</string>
     <string name="sequence_started">已開始，%1$.1f 秒後在圓點新位置再點擊一次</string>

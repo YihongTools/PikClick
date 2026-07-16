@@ -339,8 +339,8 @@ class MainActivity : Activity() {
                 this,
                 getString(
                     R.string.seconds_range,
-                    ClickSettings.MIN_DELAY_SECONDS.toInt(),
-                    ClickSettings.MAX_DELAY_SECONDS.toInt(),
+                    ClickSettings.MIN_DELAY_SECONDS.toDouble(),
+                    ClickSettings.MAX_DELAY_SECONDS.toDouble(),
                 ),
                 Toast.LENGTH_SHORT,
             ).show()

@@ -16,7 +16,7 @@
     <string name="enabled">Enabled</string>
     <string name="enable">Enable</string>
     <string name="enter_seconds">Enter a delay</string>
-    <string name="seconds_range" tools:ignore="PluralsCandidate">Allowed delay: %1$d–%2$d seconds</string>
+    <string name="seconds_range" tools:ignore="PluralsCandidate">Allowed delay: %1$.1f–%2$.1f seconds</string>
     <string name="seconds_applied">Delay applied</string>
     <string name="accessibility_disclosure_title">Enable accessibility tapping</string>
     <string name="accessibility_disclosure_message">PikClick performs gestures at the current center of the floating button only after you tap it. You may move the button during the countdown; the second tap uses the new position. The app never reads screen text or content and never starts by itself.</string>
@@ -26,7 +26,7 @@
     <string name="bubble_clicking">Tapping</string>
     <string name="bubble_completed">Done</string>
     <string name="bubble_failed">Failed</string>
-    <string name="bubble_countdown">%1$ds</string>
+    <string name="bubble_countdown">%1$.1fs</string>
     <string name="sequence_cancelled">Cancelled</string>
     <string name="enable_accessibility_first">Enable the accessibility tapping service first</string>
     <string name="sequence_started">Started; tapping again at the button’s new position in %1$.1f seconds</string>

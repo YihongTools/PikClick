@@ -17,7 +17,6 @@ import android.view.WindowManager
 import android.widget.TextView
 import android.widget.Toast
 import kotlin.math.abs
-import kotlin.math.ceil
 
 private class AccessibleBubbleView(context: Context) : TextView(context) {
     override fun performClick(): Boolean {
@@ -431,7 +430,7 @@ class OverlayBubbleService : Service() {
 
                 val elapsed = System.currentTimeMillis() - startedAt
                 val remainingMillis = (delayMillis - elapsed).coerceAtLeast(0L)
-                val remainingSeconds = ceil(remainingMillis / 1000.0).toInt().coerceAtLeast(1)
+                val remainingSeconds = remainingMillis / 1000.0
                 bubbleView?.text = getString(R.string.bubble_countdown, remainingSeconds)
 
                 if (remainingMillis > 0L) {
@@ -481,7 +480,7 @@ class OverlayBubbleService : Service() {
     companion object {
         const val ACTION_TEST_CLICK = "com.pikclick.app.action.TEST_CLICK"
         private const val DRAG_THRESHOLD_DP = 8
-        private const val COUNTDOWN_TICK_MS = 250L
+        private const val COUNTDOWN_TICK_MS = 100L
         private const val RESET_LABEL_DELAY_MS = 1000L
         private const val CLICK_DISPATCH_DELAY_MS = 80L
         private const val CLICK_TIMEOUT_MS = 1000L
