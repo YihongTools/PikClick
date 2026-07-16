@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">PikClick 點點皮</string>
+    <string name="accessibility_service_label">PikClick 點點皮</string>
+    <string name="accessibility_service_description">依使用者設定，在懸浮圓點位置執行開始與結束兩次點擊。</string>
+</resources>

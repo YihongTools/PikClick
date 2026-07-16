@@ -1,0 +1,13 @@
+.gradle/
+.kotlin/
+build/
+app/build/
+local.properties
+keystore.properties
+release-key.jks
+*.iml
+.idea/
+*.keystore
+.env
+.env.*
+architecture-report.html
