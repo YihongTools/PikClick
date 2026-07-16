@@ -152,7 +152,7 @@ Reproducible bug reports and pull requests are welcome through [GitHub Issues](h
 
 ### License
 
-This repository does not currently contain a `LICENSE` file. Source availability alone does not grant reuse rights. Add an OSI-approved license before presenting PikClick as an open-source release.
+PikClick is available under the [MIT License](LICENSE).
 
 ---
 

@@ -23,7 +23,7 @@
 
 - Release 尚未上傳 GitHub 時，連結可能暫時顯示 404；README 不宣稱已發布成功。
 - 缺少實機截圖時必須明示待補，不得用生成圖冒充。
-- 缺少 LICENSE 時不得宣稱已有特定開源授權。
+- 遠端既有 MIT LICENSE 必須保留，README 的授權說明須與其一致。
 - Release build 缺少本機簽章材料時應失敗，不得把金鑰提交到 Git。
 
 ## 驗收標準
@@ -31,7 +31,7 @@
 - Given repository 首頁，When GitHub 呈現 README，Then Banner、中文、英文、功能、畫面、安裝與 Roadmap 章節皆存在。
 - Given v2.1.0 建置，When 執行 `checksumReleaseApk`，Then 產出同版本 APK 與可驗證的 SHA-256。
 - Given Git 暫存內容，When 搜尋敏感檔名，Then 不包含 `keystore.properties`、`.jks`、`.keystore` 或 `.env`。
-- Given 缺少真機截圖與 LICENSE，When 閱讀 README，Then 限制被明確揭露。
+- Given 缺少真機截圖，When 閱讀 README，Then 限制被明確揭露；授權則連結既有 MIT LICENSE。
 
 ## 風險與降低方式
 
@@ -45,6 +45,6 @@
 
 ## 未決策事項
 
-- 尚未選擇開源授權。
+- 已確認遠端 repository 採用 MIT License。
 - 尚未確認 v2.1.0 GitHub Release 是否由維護者建立。
 - 尚未取得 v2.1.0 真機截圖。
