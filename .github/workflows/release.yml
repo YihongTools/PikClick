@@ -10,7 +10,7 @@ permissions:
   contents: read
 
 jobs:
-  release:
+  unsigned-release:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -20,32 +20,11 @@ jobs:
           java-version: "17"
           cache: gradle
       - uses: android-actions/setup-android@9fc6c4e9069bf8d3d10b2204b1fb8f6ef7065407 # v3
-      - name: Validate signing secrets
-        env:
-          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          test -n "$SIGNING_KEY_BASE64"
-          test -n "$KEYSTORE_PASSWORD"
-          test -n "$KEY_ALIAS"
-          test -n "$KEY_PASSWORD"
-      - name: Prepare signing files
-        env:
-          SIGNING_KEY_BASE64: ${{ secrets.SIGNING_KEY_BASE64 }}
-          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-        run: |
-          printf '%s' "$SIGNING_KEY_BASE64" | base64 --decode > release-key.jks
-          printf 'storeFile=release-key.jks\nstorePassword=%s\nkeyAlias=%s\nkeyPassword=%s\n' \
-            "$KEYSTORE_PASSWORD" "$KEY_ALIAS" "$KEY_PASSWORD" > keystore.properties
       - run: chmod +x gradlew
-      - run: ./gradlew clean testDebugUnitTest lintRelease checksumReleaseApk --stacktrace
+      - name: Build unsigned release APK
+        run: ./gradlew clean testDebugUnitTest lintRelease assembleRelease -PunsignedRelease=true --stacktrace
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: PikClick-release
-          path: |
-            dist/*.apk
-            dist/*.sha256
+          name: PikClick-unsigned-release
+          path: app/build/outputs/apk/release/*-unsigned.apk
+          if-no-files-found: error

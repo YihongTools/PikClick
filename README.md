@@ -61,13 +61,14 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 ./gradlew connectedDebugAndroidTest  # requires an emulator or device
 ```
 
-正式 Release 需要自行準備未納入 Git 的 `keystore.properties` 與簽章檔：
+正式私鑰永遠保留在本機；GitHub CI 只產生未簽章 APK。手動發布前，使用未納入 Git 的 `keystore.properties` 與簽章檔在本機建置：
 
 ```bash
 ./gradlew clean checksumReleaseApk
 ```
 
 產物會複製到 `dist/PikClick-v2.1.0-release.apk`，並產生 SHA-256 檔案。
+完整簽章、驗證及手動上傳程序請見 [docs/LOCAL_RELEASE.md](docs/LOCAL_RELEASE.md)。
 
 ### 開發規劃
 
@@ -135,7 +136,7 @@ Requirements: JDK 17 and Android SDK 35. The wrapper pins Gradle 8.7.
 ./gradlew clean checksumReleaseApk  # requires local release signing files
 ```
 
-The signed artifact and its checksum are copied to `dist/PikClick-v2.1.0-release.apk`.
+The private signing key always remains local; GitHub CI only produces an unsigned APK. The locally signed artifact and checksum are copied to `dist/PikClick-v2.1.0-release.apk`. See [docs/LOCAL_RELEASE.md](docs/LOCAL_RELEASE.md) for signing, verification, and manual upload instructions.
 
 ### Roadmap
 

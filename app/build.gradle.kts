@@ -20,6 +20,10 @@ val keystoreProperties = Properties().apply {
         keystorePropertiesFile.inputStream().use(::load)
     }
 }
+val forceUnsignedRelease = providers.gradleProperty("unsignedRelease").orNull.toBoolean()
+val hasReleaseSigning = !forceUnsignedRelease &&
+    listOf("storeFile", "storePassword", "keyAlias", "keyPassword")
+        .all { !keystoreProperties.getProperty(it).isNullOrBlank() }
 
 android {
     namespace = "com.pikclick.app"
@@ -50,7 +54,9 @@ android {
         release {
             isMinifyEnabled = true
             isShrinkResources = true
-            signingConfig = signingConfigs.getByName("release")
+            if (hasReleaseSigning) {
+                signingConfig = signingConfigs.getByName("release")
+            }
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro",
