@@ -11,3 +11,4 @@ release-key.jks
 .env
 .env.*
 architecture-report.html
+.codex-remote-attachments/

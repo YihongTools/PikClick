@@ -37,10 +37,8 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 
 | 主畫面 | 懸浮圓點與倒數 |
 |:---:|:---:|
-| 權限狀態、延遲秒數與「顯示圓點」入口 | 拖曳定位、第一次點擊、倒數與第二次點擊 |
-| *v2.1.0 真機截圖待補* | *v2.1.0 真機截圖待補* |
-
-目前程式庫尚未保存可驗證的 v2.1.0 真機截圖，因此不以設計稿冒充實際畫面。歡迎在實機驗收後將圖片加入 `docs/images/`。
+| <img src="docs/images/pikclick-main-screen.jpg" alt="PikClick 主畫面：秒數、顯示圓點及權限狀態" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick 懸浮圓點顯示三秒倒數" width="360"> |
+| 權限狀態、延遲秒數與「顯示圓點」入口 | 懸浮圓點顯示剩餘倒數，可使用紅色按鈕關閉 |
 
 ### 安裝方式
 
@@ -75,7 +73,7 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 - [x] 權限狀態引導、安全警告
 - [x] Gradle Wrapper、單元測試、CI 與 Release checksum
 - [ ] 補齊 Android 8／11／13／15 真機測試矩陣
-- [ ] 補上可驗證的中英文使用畫面
+- [x] 補上可驗證的使用畫面
 - [ ] 在 App 內加入中英文切換與無障礙用途顯著揭露
 - [ ] 評估螢幕旋轉與品牌省電機制的服務恢復策略
 - [ ] 建立公開隱私政策頁面與選定正式發布通路
@@ -108,10 +106,8 @@ PikClick is an Android utility that places a draggable floating button over othe
 
 | Main screen | Floating button and countdown |
 |:---:|:---:|
-| Permission status, delay input, and the show-button action | Drag, first tap, countdown, and second tap |
-| *Verified v2.1.0 device screenshot pending* | *Verified v2.1.0 device screenshot pending* |
-
-No verifiable v2.1.0 device screenshots are currently stored in this repository, so a design mockup is not presented as a real product capture. Contributions may add verified screenshots under `docs/images/`.
+| <img src="docs/images/pikclick-main-screen.jpg" alt="PikClick main screen with delay, show button, and permission status" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick floating button showing a three-second countdown" width="360"> |
+| Permission status, delay input, and the show-button action | Floating countdown with a red close button |
 
 ### Installation
 
@@ -141,7 +137,7 @@ The signed artifact and its checksum are copied to `dist/PikClick-v2.1.0-release
 - [x] Permission guidance and safety warning
 - [x] Gradle Wrapper, unit tests, CI, and release checksum
 - [ ] Complete the Android 8/11/13/15 physical-device matrix
-- [ ] Add verified Traditional Chinese and English screenshots
+- [x] Add verified usage screenshots
 - [ ] Add in-app localization and prominent accessibility disclosure
 - [ ] Evaluate rotation and vendor battery-management recovery behavior
 - [ ] Publish a privacy-policy page and select a formal distribution channel

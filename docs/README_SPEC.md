@@ -9,7 +9,7 @@
 - 訪客進入 repository 時，應先看到品牌 Banner、用途、安全界線與最新版本。
 - 使用者應能從 README 前往 v2.1.0 Release，辨認 APK 與 checksum 檔名並完成安裝。
 - 開發者應能辨認 JDK、SDK、Gradle 版本及測試／建置命令。
-- 中文與英文內容必須包含同等核心資訊，不將未驗證的設計稿稱為實機截圖。
+- 中文與英文內容必須包含同等核心資訊，並使用使用者提供的真機截圖。
 - Roadmap 必須區分已完成與待完成事項。
 
 ## 非功能需求
@@ -22,7 +22,7 @@
 ## 邊界條件
 
 - Release 尚未上傳 GitHub 時，連結可能暫時顯示 404；README 不宣稱已發布成功。
-- 缺少實機截圖時必須明示待補，不得用生成圖冒充。
+- 真機截圖不得包含帳號、通知或其他可識別個資；本次兩張截圖經目視檢查未發現上述資訊。
 - 遠端既有 MIT LICENSE 必須保留，README 的授權說明須與其一致。
 - Release build 缺少本機簽章材料時應失敗，不得把金鑰提交到 Git。
 
@@ -31,7 +31,7 @@
 - Given repository 首頁，When GitHub 呈現 README，Then Banner、中文、英文、功能、畫面、安裝與 Roadmap 章節皆存在。
 - Given v2.1.0 建置，When 執行 `checksumReleaseApk`，Then 產出同版本 APK 與可驗證的 SHA-256。
 - Given Git 暫存內容，When 搜尋敏感檔名，Then 不包含 `keystore.properties`、`.jks`、`.keystore` 或 `.env`。
-- Given 缺少真機截圖，When 閱讀 README，Then 限制被明確揭露；授權則連結既有 MIT LICENSE。
+- Given GitHub 顯示 README，When 讀取使用畫面章節，Then 主畫面與懸浮倒數真機截圖皆可載入且有中英文替代文字。
 
 ## 風險與降低方式
 
@@ -39,7 +39,7 @@
 |---|---|---|---|
 | GitHub v2.1.0 Release 尚不存在 | 中 | 高 | 只建立本機產物與連結，不宣稱遠端已發布 |
 | 無障礙用途遭誤解 | 高 | 中 | README 與隱私文件清楚揭露使用方式及限制 |
-| 真機畫面與描述不一致 | 中 | 中 | 不使用生成 UI 假裝截圖，列為 Roadmap |
+| 真機畫面與描述不一致 | 中 | 低 | 使用實際手機截圖並以可見內容撰寫說明 |
 | 版本引用遺漏 | 中 | 低 | 全庫搜尋舊版本並重新建置 |
 | 簽章資訊外洩 | 高 | 低 | 擴充 `.gitignore` 並在 staged diff 進行敏感檔檢查 |
 
@@ -47,4 +47,4 @@
 
 - 已確認遠端 repository 採用 MIT License。
 - 尚未確認 v2.1.0 GitHub Release 是否由維護者建立。
-- 尚未取得 v2.1.0 真機截圖。
+- 已取得主畫面與懸浮倒數兩張真機截圖；其他 Android 版本畫面仍待裝置矩陣補充。
