@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string name="app_name">PikClick 點點皮</string>
-    <string name="accessibility_service_label">PikClick 點點皮</string>
-    <string name="accessibility_service_description">依使用者設定，在懸浮圓點位置執行開始與結束兩次點擊。</string>
+    <string name="accessibility_service_description">只在使用者點選懸浮圓點後，於每次點擊當下的圓點中心執行手勢；不讀取畫面內容。</string>
+    <string name="show_bubble">顯示圓點</string>
+    <string name="bubble_shown">圓點已顯示</string>
+    <string name="overlay_permission">懸浮窗</string>
+    <string name="accessibility_permission">無障礙</string>
+    <string name="safety_warning">安全警告：請只在你確認的位置使用點擊功能，避免誤觸付款、送出、刪除或其他不可復原的操作。</string>
+    <string name="support_message">如果這些小工具曾經為你節省了一些時間，或讓你的使用體驗更便利，歡迎支持持續開發。</string>
+    <string name="support_development">支持開發</string>
+    <string name="seconds">秒數</string>
+    <string name="go_to_settings">去設定</string>
+    <string name="authorized">已授權</string>
+    <string name="authorize">去授權</string>
+    <string name="enabled">已啟用</string>
+    <string name="enable">去啟用</string>
+    <string name="enter_seconds">請輸入秒數</string>
+    <string name="seconds_range">秒數需介於 %1$d 到 %2$d 秒</string>
+    <string name="seconds_applied">秒數已套用</string>
+    <string name="accessibility_disclosure_title">啟用無障礙點擊服務</string>
+    <string name="accessibility_disclosure_message">PikClick 只在你點選懸浮圓點後，於每次點擊當下的圓點中心執行手勢。倒數期間可移動圓點，第二次點擊會使用新位置。App 不讀取畫面文字或內容，也不會自行開始。</string>
+    <string name="continue_to_settings">繼續前往設定</string>
+    <string name="cancel">取消</string>
+    <string name="bubble_start">開始</string>
+    <string name="bubble_clicking">點擊</string>
+    <string name="bubble_completed">完成</string>
+    <string name="bubble_failed">失敗</string>
+    <string name="bubble_countdown">%1$d秒</string>
+    <string name="sequence_cancelled">已取消</string>
+    <string name="enable_accessibility_first">請先啟用無障礙點擊服務</string>
+    <string name="sequence_started">已開始，%1$.1f 秒後在圓點新位置再點擊一次</string>
+    <string name="first_click_failed">開始點擊失敗，請重新開始</string>
+    <string name="second_click_completed">已完成第二次點擊</string>
+    <string name="second_click_failed">結束點擊失敗，請重新開始</string>
+    <string name="bubble_position_missing">找不到圓點位置，請重新開始</string>
+    <string name="countdown_in_progress">倒數中，請先取消或等待完成</string>
+    <string name="bubble_center_missing">找不到圓點中心，請重新開啟圓點</string>
+    <string name="test_click_success">測試點擊成功</string>
+    <string name="test_click_failed">測試點擊失敗</string>
+    <string name="permission_revoked_cancelled">必要權限已撤銷，點擊已取消</string>
 </resources>

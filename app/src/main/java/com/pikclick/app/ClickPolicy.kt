@@ -22,3 +22,19 @@ class ClickSequenceGate {
 
     fun isCurrent(token: Int): Boolean = token == current
 }
+
+/** Stores the most recently observed bubble center for the next click attempt. */
+class LatestClickTarget<T> {
+    private var value: T? = null
+
+    fun update(newValue: T): T {
+        value = newValue
+        return newValue
+    }
+
+    fun current(): T? = value
+
+    fun clear() {
+        value = null
+    }
+}

@@ -1,7 +1,9 @@
 package com.pikclick.app
 
 import android.app.Service
+import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.graphics.Color
 import android.graphics.PixelFormat
 import android.graphics.Point
@@ -17,6 +19,13 @@ import android.widget.Toast
 import kotlin.math.abs
 import kotlin.math.ceil
 
+private class AccessibleBubbleView(context: Context) : TextView(context) {
+    override fun performClick(): Boolean {
+        super.performClick()
+        return true
+    }
+}
+
 class OverlayBubbleService : Service() {
     private val handler = Handler(Looper.getMainLooper())
     private lateinit var windowManager: WindowManager
@@ -28,6 +37,7 @@ class OverlayBubbleService : Service() {
     private var countdownTick: Runnable? = null
     private var isWaiting = false
     private val sequenceGate = ClickSequenceGate()
+    private val latestClickTarget = LatestClickTarget<Point>()
 
     override fun onCreate() {
         super.onCreate()
@@ -68,16 +78,31 @@ class OverlayBubbleService : Service() {
         super.onDestroy()
     }
 
+    override fun onConfigurationChanged(newConfig: Configuration) {
+        super.onConfigurationChanged(newConfig)
+        handler.post {
+            val view = bubbleView ?: return@post
+            val params = layoutParams ?: return@post
+            clampBubblePosition(params, view)
+            if (safeUpdateViewLayout(view, params)) {
+                updateCloseButtonPosition(params, view.width)
+                ClickSettings.saveBubblePosition(this, params.x, params.y)
+            }
+        }
+    }
+
     private fun showBubble() {
         val size = dp(64)
-        val view = TextView(this).apply {
-            text = "開始"
+        val view = AccessibleBubbleView(this).apply {
+            text = getString(R.string.bubble_start)
             textSize = 13f
             gravity = Gravity.CENTER
             setTextColor(Color.WHITE)
             setTypeface(typeface, android.graphics.Typeface.BOLD)
             background = getDrawable(R.drawable.bubble_background)
             elevation = dp(8).toFloat()
+            isClickable = true
+            setOnClickListener { toggleClickCountdown() }
         }
 
         val params = WindowManager.LayoutParams(
@@ -136,7 +161,7 @@ class OverlayBubbleService : Service() {
         closeLayoutParams = params
     }
 
-    private fun attachDragAndClick(view: TextView, params: WindowManager.LayoutParams) {
+    private fun attachDragAndClick(view: AccessibleBubbleView, params: WindowManager.LayoutParams) {
         var initialX = 0
         var initialY = 0
         var touchStartX = 0f
@@ -160,18 +185,18 @@ class OverlayBubbleService : Service() {
                     moved = moved || abs(dx) > dp(DRAG_THRESHOLD_DP) || abs(dy) > dp(DRAG_THRESHOLD_DP)
                     params.x = initialX + dx
                     params.y = initialY + dy
-                    windowManager.updateViewLayout(view, params)
+                    if (!safeUpdateViewLayout(view, params)) return@setOnTouchListener false
                     updateCloseButtonPosition(params, view.width)
                     true
                 }
 
                 MotionEvent.ACTION_UP -> {
                     clampBubblePosition(params, view)
-                    windowManager.updateViewLayout(view, params)
+                    if (!safeUpdateViewLayout(view, params)) return@setOnTouchListener false
                     updateCloseButtonPosition(params, view.width)
                     ClickSettings.saveBubblePosition(this, params.x, params.y)
                     if (!moved) {
-                        toggleClickCountdown()
+                        view.performClick()
                     }
                     true
                 }
@@ -216,11 +241,11 @@ class OverlayBubbleService : Service() {
     private fun toggleClickCountdown() {
         if (isWaiting) {
             cancelPendingClick()
-            Toast.makeText(this, "已取消", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.sequence_cancelled, Toast.LENGTH_SHORT).show()
             return
         }
         if (!AutoClickAccessibilityService.isRunning) {
-            Toast.makeText(this, "請先啟用無障礙點擊服務", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.enable_accessibility_first, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -229,11 +254,11 @@ class OverlayBubbleService : Service() {
 
         isWaiting = true
         val sequenceId = sequenceGate.begin()
-        bubbleView?.text = "點擊"
+        bubbleView?.text = getString(R.string.bubble_clicking)
         performBubbleClick(
             sequenceId = sequenceId,
-            successMessage = "已開始，${delayMillis / 1000.0} 秒後再點擊一次",
-            failureMessage = "開始點擊失敗，請重新開始",
+            successMessage = getString(R.string.sequence_started, delayMillis / 1000.0),
+            failureMessage = getString(R.string.first_click_failed),
             onSuccess = {
                 startCountdownLabel(delayMillis)
                 scheduleFinalClick(sequenceId, delayMillis)
@@ -246,9 +271,9 @@ class OverlayBubbleService : Service() {
             if (!isActiveSequence(sequenceId)) return@Runnable
             performBubbleClick(
                 sequenceId = sequenceId,
-                successMessage = "已完成第二次點擊",
-                failureMessage = "結束點擊失敗，請重新開始",
-                onSuccess = { resetAfterClick("完成") },
+                successMessage = getString(R.string.second_click_completed),
+                failureMessage = getString(R.string.second_click_failed),
+                onSuccess = { resetAfterClick(R.string.bubble_completed) },
             )
         }
         pendingClick = task
@@ -261,10 +286,15 @@ class OverlayBubbleService : Service() {
         failureMessage: String,
         onSuccess: () -> Unit,
     ) {
+        if (!hasRequiredPermissions()) {
+            cancelPendingClick()
+            Toast.makeText(this, R.string.permission_revoked_cancelled, Toast.LENGTH_SHORT).show()
+            return
+        }
         val clickPoint = currentBubbleCenter()
         if (clickPoint == null) {
-            resetAfterClick("失敗")
-            Toast.makeText(this, "找不到圓點位置，請重新開始", Toast.LENGTH_SHORT).show()
+            resetAfterClick(R.string.bubble_failed)
+            Toast.makeText(this, R.string.bubble_position_missing, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -284,7 +314,7 @@ class OverlayBubbleService : Service() {
                             Toast.makeText(this, successMessage, Toast.LENGTH_SHORT).show()
                             onSuccess()
                         } else {
-                            resetAfterClick("失敗")
+                            resetAfterClick(R.string.bubble_failed)
                             Toast.makeText(this, failureMessage, Toast.LENGTH_SHORT).show()
                         }
                     }
@@ -296,16 +326,16 @@ class OverlayBubbleService : Service() {
 
     private fun performTestClick() {
         if (isWaiting) {
-            Toast.makeText(this, "倒數中，請先取消或等待完成", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.countdown_in_progress, Toast.LENGTH_SHORT).show()
             return
         }
         if (!AutoClickAccessibilityService.isRunning) {
-            Toast.makeText(this, "請先啟用無障礙", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.enable_accessibility_first, Toast.LENGTH_SHORT).show()
             return
         }
         val clickPoint = currentBubbleCenter()
         if (clickPoint == null) {
-            Toast.makeText(this, "找不到圓點中心，請重新開啟圓點", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.bubble_center_missing, Toast.LENGTH_SHORT).show()
             return
         }
 
@@ -323,7 +353,7 @@ class OverlayBubbleService : Service() {
                         if (!sequenceGate.isCurrent(sequenceId)) return@post
                         Toast.makeText(
                             this,
-                            if (success) "測試點擊成功" else "測試點擊失敗",
+                            getString(if (success) R.string.test_click_success else R.string.test_click_failed),
                             Toast.LENGTH_SHORT,
                         ).show()
                     }
@@ -352,22 +382,23 @@ class OverlayBubbleService : Service() {
         pendingClick = null
         countdownTick = null
         isWaiting = false
-        bubbleView?.text = "開始"
+        latestClickTarget.clear()
+        bubbleView?.text = getString(R.string.bubble_start)
     }
 
-    private fun resetAfterClick(finalLabel: String = "開始") {
+    private fun resetAfterClick(finalLabelRes: Int = R.string.bubble_start) {
         val resetSequenceId = sequenceGate.begin()
         setBubbleTouchable(true)
         countdownTick?.let { handler.removeCallbacks(it) }
         pendingClick = null
         countdownTick = null
         isWaiting = false
-        bubbleView?.text = finalLabel
-        if (finalLabel != "開始") {
+        bubbleView?.text = getString(finalLabelRes)
+        if (finalLabelRes != R.string.bubble_start) {
             handler.postDelayed(
                 {
                     if (!isWaiting && sequenceGate.isCurrent(resetSequenceId)) {
-                        bubbleView?.text = "開始"
+                        bubbleView?.text = getString(R.string.bubble_start)
                     }
                 },
                 RESET_LABEL_DELAY_MS,
@@ -401,7 +432,7 @@ class OverlayBubbleService : Service() {
                 val elapsed = System.currentTimeMillis() - startedAt
                 val remainingMillis = (delayMillis - elapsed).coerceAtLeast(0L)
                 val remainingSeconds = ceil(remainingMillis / 1000.0).toInt().coerceAtLeast(1)
-                bubbleView?.text = "${remainingSeconds}秒"
+                bubbleView?.text = getString(R.string.bubble_countdown, remainingSeconds)
 
                 if (remainingMillis > 0L) {
                     handler.postDelayed(this, COUNTDOWN_TICK_MS)
@@ -429,7 +460,22 @@ class OverlayBubbleService : Service() {
         if (centerX !in 0..displayMetrics.widthPixels || centerY !in 0..displayMetrics.heightPixels) {
             return null
         }
-        return Point(centerX, centerY)
+        return latestClickTarget.update(Point(centerX, centerY))
+    }
+
+    private fun hasRequiredPermissions(): Boolean {
+        return Settings.canDrawOverlays(this) && AutoClickAccessibilityService.isRunning
+    }
+
+    private fun safeUpdateViewLayout(view: TextView, params: WindowManager.LayoutParams): Boolean {
+        return runCatching {
+            windowManager.updateViewLayout(view, params)
+            true
+        }.getOrElse {
+            cancelPendingClick()
+            stopSelf()
+            false
+        }
     }
 
     companion object {

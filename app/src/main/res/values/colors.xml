@@ -3,6 +3,4 @@
     <color name="brand_primary">#2563EB</color>
     <color name="brand_primary_dark">#1E40AF</color>
     <color name="surface">#FFFFFF</color>
-    <color name="text_primary">#111827</color>
-    <color name="text_secondary">#4B5563</color>
 </resources>

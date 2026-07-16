@@ -33,4 +33,18 @@ public class ClickPolicyTest {
         gate.invalidate();
         assertFalse(gate.isCurrent(second));
     }
+
+    @Test public void secondAttemptUsesLatestBubbleCenter() {
+        LatestClickTarget<String> target = new LatestClickTarget<>();
+        assertEquals("first-position", target.update("first-position"));
+        assertEquals("second-position", target.update("second-position"));
+        assertEquals("second-position", target.current());
+    }
+
+    @Test public void cancellationClearsLatestBubbleCenter() {
+        LatestClickTarget<String> target = new LatestClickTarget<>();
+        target.update("position");
+        target.clear();
+        assertEquals(null, target.current());
+    }
 }

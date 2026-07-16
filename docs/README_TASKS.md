@@ -10,3 +10,5 @@
 | T6 | 擴充 `.gitignore` | T1 | 本機環境與簽章材料不會被加入 Git | 誤忽略發布產物 | 完成 |
 | T7 | 乾淨建置、測試與 checksum | T5 | Gradle 成功且 SHA-256 相符 | 本機 JDK／SDK 環境 | 完成 |
 | T8 | 獨立審查與全庫架構掃描 | T4–T7 | 報告含分級發現、證據與限制 | 動態行為未實機覆蓋 | 完成 |
+| T9 | 新位置語意、撤權／旋轉安全與中英本地化 | T8 | JVM、lint、AndroidTest APK 與行為規格 | Android 生命週期競態 | 完成 |
+| T10 | Dependabot、CodeQL、Release CI、Emulator Matrix 與 branch protection | T9 | Actions 成功、GitHub 設定可查證 | Secrets 與 CI 權限 | 進行中 |

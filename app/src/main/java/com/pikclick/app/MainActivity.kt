@@ -1,6 +1,7 @@
 package com.pikclick.app
 
 import android.app.Activity
+import android.app.AlertDialog
 import android.content.Context
 import android.content.Intent
 import android.graphics.Color
@@ -49,7 +50,7 @@ class MainActivity : Activity() {
             setPadding(dp(20), dp(28), dp(20), dp(28))
         }
 
-        content.addView(textView("PikClick 點點皮", 24f, true).apply {
+        content.addView(textView(getString(R.string.app_name), 24f, true).apply {
             gravity = Gravity.CENTER_HORIZONTAL
         }, matchWrapParams())
 
@@ -57,10 +58,10 @@ class MainActivity : Activity() {
             addView(createDelayCell(), weightedCellParams(height = 96, endMargin = 6))
 
             addView(mainActionButton(
-                label = "顯示圓點",
+                label = getString(R.string.show_bubble),
                 iconRes = R.drawable.ic_play,
                 backgroundRes = R.drawable.main_action_background,
-                contentDescription = "顯示圓點",
+                contentDescription = getString(R.string.show_bubble),
             ) {
                 if (!applyDelayFromInput(showSuccessToast = false)) return@mainActionButton
                 if (!Settings.canDrawOverlays(this@MainActivity)) {
@@ -68,7 +69,7 @@ class MainActivity : Activity() {
                     return@mainActionButton
                 }
                 startService(Intent(this@MainActivity, OverlayBubbleService::class.java))
-                Toast.makeText(this@MainActivity, "圓點已顯示", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@MainActivity, R.string.bubble_shown, Toast.LENGTH_SHORT).show()
                 updateStatus()
                 moveTaskToBack(true)
             }, weightedCellParams(height = 96, startMargin = 6))
@@ -76,7 +77,7 @@ class MainActivity : Activity() {
 
         content.addView(controlRow(bottomMargin = 16).apply {
             addView(createPermissionCell(
-                label = "懸浮窗",
+                label = getString(R.string.overlay_permission),
                 iconRes = R.drawable.ic_shield,
                 onClick = { openOverlaySettings() },
             ).also {
@@ -86,9 +87,9 @@ class MainActivity : Activity() {
             }, weightedCellParams(endMargin = 6))
 
             addView(createPermissionCell(
-                label = "無障礙",
+                label = getString(R.string.accessibility_permission),
                 iconRes = R.drawable.ic_accessibility,
-                onClick = { startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS)) },
+                onClick = { showAccessibilityDisclosure() },
             ).also {
                 accessibilityPermissionCell = it
                 accessibilityPermissionIcon = it.findViewWithTag(ICON_TAG)
@@ -97,7 +98,7 @@ class MainActivity : Activity() {
         })
 
         content.addView(textView(
-            "安全警告：請只在你確認的位置使用點擊功能，避免誤觸付款、送出、刪除或其他不可復原的操作。",
+            getString(R.string.safety_warning),
             14f,
             false,
             Color.rgb(153, 27, 27),
@@ -123,7 +124,7 @@ class MainActivity : Activity() {
             background = getDrawable(R.drawable.button_secondary_background)
 
             addView(textView(
-                "如果這些小工具曾經為你節省了一些時間，或讓你的使用體驗更便利，歡迎支持持續開發。",
+                getString(R.string.support_message),
                 14f,
                 false,
                 Color.rgb(75, 85, 99),
@@ -138,7 +139,7 @@ class MainActivity : Activity() {
                 setPadding(dp(8), dp(8), dp(8), dp(8))
                 isClickable = true
                 isFocusable = true
-                contentDescription = "支持開發"
+                contentDescription = getString(R.string.support_development)
                 setOnClickListener { openDonatePage() }
             }, LinearLayout.LayoutParams(
                 dp(44),
@@ -191,7 +192,7 @@ class MainActivity : Activity() {
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(10), 0, 0, 0)
 
-                addView(textView("秒數", 13f, true, Color.rgb(75, 85, 99)))
+                addView(textView(getString(R.string.seconds), 13f, true, Color.rgb(75, 85, 99)))
 
                 delayInput = EditText(this@MainActivity).apply {
                     setText(formatDelay(ClickSettings.getDelaySeconds(this@MainActivity)))
@@ -233,7 +234,7 @@ class MainActivity : Activity() {
     ): LinearLayout {
         return statusCell(
             label = label,
-            status = "去設定",
+            status = getString(R.string.go_to_settings),
             iconRes = iconRes,
             iconColor = Color.rgb(22, 101, 52),
             iconBackgroundColor = Color.rgb(220, 252, 231),
@@ -295,14 +296,14 @@ class MainActivity : Activity() {
             cell = overlayPermissionCell,
             icon = overlayPermissionIcon,
             statusText = overlayPermissionStatus,
-            status = if (hasOverlayPermission) "已授權" else "去授權",
+            status = getString(if (hasOverlayPermission) R.string.authorized else R.string.authorize),
             isReady = hasOverlayPermission,
         )
         updatePermissionCell(
             cell = accessibilityPermissionCell,
             icon = accessibilityPermissionIcon,
             statusText = accessibilityPermissionStatus,
-            status = if (hasAccessibilityPermission) "已啟用" else "去啟用",
+            status = getString(if (hasAccessibilityPermission) R.string.enabled else R.string.enable),
             isReady = hasAccessibilityPermission,
         )
     }
@@ -329,14 +330,18 @@ class MainActivity : Activity() {
         val rawValue = delayInput.text.toString().trim()
         val value = rawValue.toFloatOrNull()
         if (value == null) {
-            Toast.makeText(this, "請輸入秒數", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.enter_seconds, Toast.LENGTH_SHORT).show()
             restoreSavedDelayText()
             return false
         }
         if (!ClickPolicy.isValidDelay(value)) {
             Toast.makeText(
                 this,
-                "秒數需介於 ${ClickSettings.MIN_DELAY_SECONDS.toInt()} 到 ${ClickSettings.MAX_DELAY_SECONDS.toInt()} 秒",
+                getString(
+                    R.string.seconds_range,
+                    ClickSettings.MIN_DELAY_SECONDS.toInt(),
+                    ClickSettings.MAX_DELAY_SECONDS.toInt(),
+                ),
                 Toast.LENGTH_SHORT,
             ).show()
             restoreSavedDelayText()
@@ -347,7 +352,7 @@ class MainActivity : Activity() {
         delayInput.setText(formatDelay(value))
         delayInput.setSelection(delayInput.text.length)
         if (showSuccessToast) {
-            Toast.makeText(this, "秒數已套用", Toast.LENGTH_SHORT).show()
+            Toast.makeText(this, R.string.seconds_applied, Toast.LENGTH_SHORT).show()
         }
         return true
     }
@@ -363,6 +368,17 @@ class MainActivity : Activity() {
             Uri.parse("package:$packageName"),
         )
         startActivity(intent)
+    }
+
+    private fun showAccessibilityDisclosure() {
+        AlertDialog.Builder(this)
+            .setTitle(R.string.accessibility_disclosure_title)
+            .setMessage(R.string.accessibility_disclosure_message)
+            .setNegativeButton(R.string.cancel, null)
+            .setPositiveButton(R.string.continue_to_settings) { _, _ ->
+                startActivity(Intent(Settings.ACTION_ACCESSIBILITY_SETTINGS))
+            }
+            .show()
     }
 
     private fun openDonatePage() {

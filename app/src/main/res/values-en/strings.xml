@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <string name="app_name">PikClick</string>
+    <string name="accessibility_service_description">Only after the user taps the floating button, perform gestures at the button center at the time of each tap; never read screen content.</string>
+    <string name="show_bubble">Show button</string>
+    <string name="bubble_shown">Floating button shown</string>
+    <string name="overlay_permission">Overlay</string>
+    <string name="accessibility_permission">Accessibility</string>
+    <string name="safety_warning">Safety warning: use tapping only at positions you have verified. Avoid payment, submit, delete, or other irreversible controls.</string>
+    <string name="support_message">If these tools have saved you time or made your experience easier, you are welcome to support continued development.</string>
+    <string name="support_development">Support development</string>
+    <string name="seconds">Seconds</string>
+    <string name="go_to_settings">Settings</string>
+    <string name="authorized">Authorized</string>
+    <string name="authorize">Authorize</string>
+    <string name="enabled">Enabled</string>
+    <string name="enable">Enable</string>
+    <string name="enter_seconds">Enter a delay</string>
+    <string name="seconds_range" tools:ignore="PluralsCandidate">Allowed delay: %1$d–%2$d seconds</string>
+    <string name="seconds_applied">Delay applied</string>
+    <string name="accessibility_disclosure_title">Enable accessibility tapping</string>
+    <string name="accessibility_disclosure_message">PikClick performs gestures at the current center of the floating button only after you tap it. You may move the button during the countdown; the second tap uses the new position. The app never reads screen text or content and never starts by itself.</string>
+    <string name="continue_to_settings">Continue to settings</string>
+    <string name="cancel">Cancel</string>
+    <string name="bubble_start">Start</string>
+    <string name="bubble_clicking">Tapping</string>
+    <string name="bubble_completed">Done</string>
+    <string name="bubble_failed">Failed</string>
+    <string name="bubble_countdown">%1$ds</string>
+    <string name="sequence_cancelled">Cancelled</string>
+    <string name="enable_accessibility_first">Enable the accessibility tapping service first</string>
+    <string name="sequence_started">Started; tapping again at the button’s new position in %1$.1f seconds</string>
+    <string name="first_click_failed">First tap failed; try again</string>
+    <string name="second_click_completed">Second tap completed</string>
+    <string name="second_click_failed">Second tap failed; try again</string>
+    <string name="bubble_position_missing">Button position unavailable; try again</string>
+    <string name="countdown_in_progress">Countdown active; cancel or wait for completion</string>
+    <string name="bubble_center_missing">Button center unavailable; reopen the button</string>
+    <string name="test_click_success">Test tap succeeded</string>
+    <string name="test_click_failed">Test tap failed</string>
+    <string name="permission_revoked_cancelled">Required permission was revoked; tapping cancelled</string>
+</resources>
