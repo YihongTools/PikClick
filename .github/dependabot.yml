@@ -5,6 +5,11 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 5
+    ignore:
+      # Keep the current Android toolchain stable: AGP 8.5.2 + Gradle 8.7.
+      - dependency-name: "com.android.tools.build:gradle"
+      - dependency-name: "org.jetbrains.kotlin:kotlin-gradle-plugin"
+      - dependency-name: "gradle-wrapper"
   - package-ecosystem: github-actions
     directory: /
     schedule:
