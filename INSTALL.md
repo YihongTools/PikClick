@@ -4,11 +4,11 @@
 
 Release APK 的標準分發位置：
 
-`dist/PikClick-v2.1.0-release.apk`
+`dist/PikClick-v2.1.1-release.apk`
 
 在一般 ASCII 路徑下，中間產物也會位於 `app/build/outputs/apk/release/app-release.apk`；Windows 專案路徑含非 ASCII 字元時，中間產物會改放在使用者 Gradle 快取目錄。
 
-可使用同目錄的 `PikClick-v2.1.0-release.apk.sha256` 驗證檔案完整性。
+可使用同目錄的 `PikClick-v2.1.1-release.apk.sha256` 驗證檔案完整性。
 
 ## 安裝步驟
 
@@ -17,7 +17,7 @@ Release APK 的標準分發位置：
 3. 安裝完成後開啟「PikClick 點點皮」。
 4. 點選「授權懸浮窗」，允許 app 顯示在其他應用程式上層。
 5. 回到 app，點選「啟用無障礙點擊服務」，在 Android 無障礙設定中啟用「PikClick 點點皮」。
-6. 設定 3 到 10 秒之間的延遲秒數，例如 `3.5`。
+6. 設定 0.1 到 60.0 秒之間的延遲秒數，例如 `3.5`。
 7. 點選「開啟 / 更新懸浮圓點」。
 8. 拖曳圓點到第一個位置並點一下，App 會使用當下中心點擊並開始倒數；倒數期間可移動圓點或旋轉螢幕，結束時會重新讀取圓點中心並在新位置點擊。
 9. 第二次點擊完成後圓點會保留在畫面上，使用者可自行關閉。

@@ -7,7 +7,7 @@
     <a href="https://github.com/YihongTools/PikClick/releases/latest"><img alt="Latest release" src="https://img.shields.io/github/v/release/YihongTools/PikClick?style=flat-square"></a>
     <img alt="Android 8+" src="https://img.shields.io/badge/Android-8.0%2B-3DDC84?style=flat-square&logo=android&logoColor=white">
     <a href="https://github.com/YihongTools/PikClick/actions"><img alt="Android CI" src="https://img.shields.io/github/actions/workflow/status/YihongTools/PikClick/android.yml?style=flat-square&label=build"></a>
-    <img alt="Version 2.1.0" src="https://img.shields.io/badge/version-2.1.0-2563EB?style=flat-square">
+    <img alt="Version 2.1.1" src="https://img.shields.io/badge/version-2.1.1-2563EB?style=flat-square">
   </p>
 
   <p><a href="#繁體中文">繁體中文</a> · <a href="#english">English</a> · <a href="https://github.com/YihongTools/PikClick/releases">Releases</a> · <a href="docs/PRIVACY_AND_RELEASE.md">Privacy</a></p>
@@ -19,7 +19,7 @@
 
 ### PikClick 是什麼？
 
-PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立即執行第一次點擊，等待 3–10 秒，再於第二次點擊當下的圓點中心執行。倒數期間可移動圓點或旋轉螢幕以選擇新位置。每一組操作都必須由使用者主動觸發；App 不會讀取畫面文字，也不需要網路權限。
+PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立即執行第一次點擊，等待 0.1–60.0 秒，再於第二次點擊當下的圓點中心執行。倒數期間可移動圓點或旋轉螢幕以選擇新位置。每一組操作都必須由使用者主動觸發；App 不會讀取畫面文字，也不需要網路權限。
 
 > [!WARNING]
 > 請勿將圓點放在付款、購買、刪除、送出或授權等不可復原的按鈕上。點擊結果由使用者自行確認與承擔。
