@@ -44,8 +44,8 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 
 ### 安裝方式
 
-1. 前往 [GitHub Releases](https://github.com/YihongTools/PikClick/releases/tag/v2.1.0)。
-2. 下載 `PikClick-v2.1.0-release.apk` 與同名 `.sha256`。
+1. 前往 [GitHub Releases](https://github.com/YihongTools/PikClick/releases/tag/v2.1.1)。
+2. 下載 `PikClick-v2.1.1-release.apk` 與同名 `.sha256`。
 3. 驗證 SHA-256 後，在 Android 裝置允許此來源安裝 APK。
 4. 開啟 PikClick，依序允許「顯示在其他應用程式上層」與啟用 PikClick 無障礙服務。
 5. 設定秒數、顯示圓點、拖到目標位置後點一下開始。
@@ -67,7 +67,7 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 ./gradlew clean checksumReleaseApk
 ```
 
-產物會複製到 `dist/PikClick-v2.1.0-release.apk`，並產生 SHA-256 檔案。
+產物會複製到 `dist/PikClick-v2.1.1-release.apk`，並產生 SHA-256 檔案。
 完整簽章、驗證及手動上傳程序請見 [docs/LOCAL_RELEASE.md](docs/LOCAL_RELEASE.md)。
 
 ### 開發規劃
@@ -118,8 +118,8 @@ PikClick is an Android utility that places a draggable floating button over othe
 
 ### Installation
 
-1. Open the [v2.1.0 release](https://github.com/YihongTools/PikClick/releases/tag/v2.1.0).
-2. Download `PikClick-v2.1.0-release.apk` and its `.sha256` file.
+1. Open the [v2.1.1 release](https://github.com/YihongTools/PikClick/releases/tag/v2.1.1).
+2. Download `PikClick-v2.1.1-release.apk` and its `.sha256` file.
 3. Verify the SHA-256 digest, then allow APK installation from that source.
 4. Open PikClick, grant the overlay permission, and enable the PikClick accessibility service.
 5. Choose a delay, show the floating button, drag it into position, and tap to begin.
@@ -136,7 +136,7 @@ Requirements: JDK 17 and Android SDK 35. The wrapper pins Gradle 8.7.
 ./gradlew clean checksumReleaseApk  # requires local release signing files
 ```
 
-The private signing key always remains local; GitHub CI only produces an unsigned APK. The locally signed artifact and checksum are copied to `dist/PikClick-v2.1.0-release.apk`. See [docs/LOCAL_RELEASE.md](docs/LOCAL_RELEASE.md) for signing, verification, and manual upload instructions.
+The private signing key always remains local; GitHub CI only produces an unsigned APK. The locally signed artifact and checksum are copied to `dist/PikClick-v2.1.1-release.apk`. See [docs/LOCAL_RELEASE.md](docs/LOCAL_RELEASE.md) for signing, verification, and manual upload instructions.
 
 ### Roadmap
 

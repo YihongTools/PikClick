@@ -25,16 +25,16 @@ Run from PowerShell in the repository root:
 
 The command builds a locally signed and optimized APK, then writes these files:
 
-- `dist/PikClick-v2.1.0-release.apk`
-- `dist/PikClick-v2.1.0-release.apk.sha256`
+- `dist/PikClick-v2.1.1-release.apk`
+- `dist/PikClick-v2.1.1-release.apk.sha256`
 
 Verify the APK signature before upload:
 
 ```powershell
 $sdk = $env:LOCALAPPDATA + "\Android\Sdk"
 $apksigner = Get-ChildItem "$sdk\build-tools\*\apksigner.bat" | Sort-Object FullName -Descending | Select-Object -First 1
-& $apksigner.FullName verify --verbose --print-certs .\dist\PikClick-v2.1.0-release.apk
-Get-FileHash .\dist\PikClick-v2.1.0-release.apk -Algorithm SHA256
+& $apksigner.FullName verify --verbose --print-certs .\dist\PikClick-v2.1.1-release.apk
+Get-FileHash .\dist\PikClick-v2.1.1-release.apk -Algorithm SHA256
 ```
 
 Confirm that `Verified` is shown and that the SHA-256 output matches the `.sha256` file.
