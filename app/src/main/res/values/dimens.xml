@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="space_4">4dp</dimen>
+    <dimen name="space_8">8dp</dimen>
+    <dimen name="space_12">12dp</dimen>
+    <dimen name="space_16">16dp</dimen>
+    <dimen name="space_24">24dp</dimen>
+    <dimen name="screen_horizontal_inset">20dp</dimen>
+    <dimen name="screen_vertical_inset">28dp</dimen>
+    <dimen name="touch_target_min">48dp</dimen>
+    <dimen name="card_corner_radius">12dp</dimen>
+    <dimen name="control_gap">8dp</dimen>
+    <dimen name="primary_action_min_height">112dp</dimen>
+    <dimen name="icon_size">44dp</dimen>
+</resources>
