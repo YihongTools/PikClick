@@ -101,6 +101,8 @@ class OverlayBubbleService : Service() {
             background = getDrawable(R.drawable.bubble_background)
             elevation = dp(8).toFloat()
             isClickable = true
+            isFocusable = true
+            contentDescription = getString(R.string.bubble_start)
             setOnClickListener { toggleClickCountdown() }
         }
 
@@ -130,9 +132,12 @@ class OverlayBubbleService : Service() {
     }
 
     private fun showCloseButton(anchorParams: WindowManager.LayoutParams, bubbleSize: Int) {
-        val size = dp(28)
+        val size = dp(48)
         val view = TextView(this).apply {
             text = "×"
+            contentDescription = getString(R.string.close_bubble)
+            isClickable = true
+            isFocusable = true
             textSize = 18f
             gravity = Gravity.CENTER
             setTextColor(Color.WHITE)
@@ -226,6 +231,14 @@ class OverlayBubbleService : Service() {
         closeParams.y = anchorParams.y - closeSize / 2
     }
 
+    private fun setBubbleLabel(label: String, announce: Boolean = false) {
+        bubbleView?.let { view ->
+            view.text = label
+            view.contentDescription = label
+            if (announce) view.announceForAccessibility(label)
+        }
+    }
+
     private fun closeBubbleAndReturnToMain() {
         cancelPendingClick()
         val intent = Intent(this, MainActivity::class.java).apply {
@@ -253,7 +266,7 @@ class OverlayBubbleService : Service() {
 
         isWaiting = true
         val sequenceId = sequenceGate.begin()
-        bubbleView?.text = getString(R.string.bubble_clicking)
+        setBubbleLabel(getString(R.string.bubble_clicking), announce = true)
         performBubbleClick(
             sequenceId = sequenceId,
             successMessage = getString(R.string.sequence_started, delayMillis / 1000.0),
@@ -382,7 +395,7 @@ class OverlayBubbleService : Service() {
         countdownTick = null
         isWaiting = false
         latestClickTarget.clear()
-        bubbleView?.text = getString(R.string.bubble_start)
+        setBubbleLabel(getString(R.string.bubble_start))
     }
 
     private fun resetAfterClick(finalLabelRes: Int = R.string.bubble_start) {
@@ -392,12 +405,12 @@ class OverlayBubbleService : Service() {
         pendingClick = null
         countdownTick = null
         isWaiting = false
-        bubbleView?.text = getString(finalLabelRes)
+        setBubbleLabel(getString(finalLabelRes), announce = true)
         if (finalLabelRes != R.string.bubble_start) {
             handler.postDelayed(
                 {
                     if (!isWaiting && sequenceGate.isCurrent(resetSequenceId)) {
-                        bubbleView?.text = getString(R.string.bubble_start)
+                        setBubbleLabel(getString(R.string.bubble_start))
                     }
                 },
                 RESET_LABEL_DELAY_MS,
@@ -431,7 +444,7 @@ class OverlayBubbleService : Service() {
                 val elapsed = System.currentTimeMillis() - startedAt
                 val remainingMillis = (delayMillis - elapsed).coerceAtLeast(0L)
                 val remainingSeconds = remainingMillis / 1000.0
-                bubbleView?.text = getString(R.string.bubble_countdown, remainingSeconds)
+                setBubbleLabel(getString(R.string.bubble_countdown, remainingSeconds))
 
                 if (remainingMillis > 0L) {
                     handler.postDelayed(this, COUNTDOWN_TICK_MS)

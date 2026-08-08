@@ -29,6 +29,8 @@ class MainActivity : Activity() {
     private lateinit var accessibilityPermissionCell: LinearLayout
     private lateinit var accessibilityPermissionIcon: ImageView
     private lateinit var accessibilityPermissionStatus: TextView
+    private lateinit var primaryActionButton: LinearLayout
+    private lateinit var delayError: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -42,69 +44,60 @@ class MainActivity : Activity() {
 
     private fun createContentView(): View {
         val root = ScrollView(this).apply {
-            setBackgroundColor(Color.rgb(248, 250, 252))
+            setBackgroundColor(getColor(R.color.surface_screen))
         }
 
         val content = LinearLayout(this).apply {
             orientation = LinearLayout.VERTICAL
-            setPadding(dp(20), dp(28), dp(20), dp(28))
+            setPadding(resources.getDimensionPixelSize(R.dimen.screen_horizontal_inset), resources.getDimensionPixelSize(R.dimen.screen_vertical_inset), resources.getDimensionPixelSize(R.dimen.screen_horizontal_inset), resources.getDimensionPixelSize(R.dimen.screen_vertical_inset))
         }
 
         content.addView(textView(getString(R.string.app_name), 24f, true).apply {
             gravity = Gravity.CENTER_HORIZONTAL
         }, matchWrapParams())
 
-        content.addView(controlRow(topMargin = 20, bottomMargin = 14).apply {
-            addView(createDelayCell(), weightedCellParams(height = 96, endMargin = 6))
-
-            addView(mainActionButton(
-                label = getString(R.string.show_bubble),
-                iconRes = R.drawable.ic_play,
-                backgroundRes = R.drawable.main_action_background,
-                contentDescription = getString(R.string.show_bubble),
-            ) {
-                if (!applyDelayFromInput(showSuccessToast = false)) return@mainActionButton
-                if (!Settings.canDrawOverlays(this@MainActivity)) {
-                    openOverlaySettings()
-                    return@mainActionButton
-                }
-                startService(Intent(this@MainActivity, OverlayBubbleService::class.java))
-                Toast.makeText(this@MainActivity, R.string.bubble_shown, Toast.LENGTH_SHORT).show()
-                updateStatus()
-                moveTaskToBack(true)
-            }, weightedCellParams(height = 96, startMargin = 6))
-        })
-
         content.addView(controlRow(bottomMargin = 16).apply {
-            addView(createPermissionCell(
-                label = getString(R.string.overlay_permission),
-                iconRes = R.drawable.ic_shield,
-                onClick = { openOverlaySettings() },
-            ).also {
+            addView(createPermissionCell(getString(R.string.overlay_permission), R.drawable.ic_shield, { openOverlaySettings() }).also {
                 overlayPermissionCell = it
                 overlayPermissionIcon = it.findViewWithTag(ICON_TAG)
                 overlayPermissionStatus = it.findViewWithTag(STATUS_TAG)
             }, weightedCellParams(endMargin = 6))
-
-            addView(createPermissionCell(
-                label = getString(R.string.accessibility_permission),
-                iconRes = R.drawable.ic_accessibility,
-                onClick = { showAccessibilityDisclosure() },
-            ).also {
+            addView(createPermissionCell(getString(R.string.accessibility_permission), R.drawable.ic_accessibility, { showAccessibilityDisclosure() }).also {
                 accessibilityPermissionCell = it
                 accessibilityPermissionIcon = it.findViewWithTag(ICON_TAG)
                 accessibilityPermissionStatus = it.findViewWithTag(STATUS_TAG)
             }, weightedCellParams(startMargin = 6))
         })
 
+        content.addView(controlRow(topMargin = 20, bottomMargin = 14).apply {
+            addView(createDelayCell(), weightedCellParams(height = resources.getDimensionPixelSize(R.dimen.primary_action_min_height), endMargin = 6))
+            primaryActionButton = mainActionButton(
+                label = getString(R.string.show_bubble), iconRes = R.drawable.ic_play,
+                backgroundRes = R.drawable.main_action_background,
+                contentDescription = getString(R.string.show_bubble),
+            ) {
+                when (PrimaryActionState.from(Settings.canDrawOverlays(this@MainActivity), isAccessibilityServiceEnabled())) {
+                    PrimaryActionState.ENABLE_OVERLAY -> openOverlaySettings()
+                    PrimaryActionState.ENABLE_ACCESSIBILITY -> showAccessibilityDisclosure()
+                    PrimaryActionState.SHOW_BUTTON -> {
+                        if (!applyDelayFromInput(showSuccessToast = false)) return@mainActionButton
+                        startService(Intent(this@MainActivity, OverlayBubbleService::class.java))
+                        Toast.makeText(this@MainActivity, R.string.bubble_shown, Toast.LENGTH_SHORT).show()
+                        updateStatus(); moveTaskToBack(true)
+                    }
+                }
+            }
+            addView(primaryActionButton, weightedCellParams(height = resources.getDimensionPixelSize(R.dimen.primary_action_min_height), startMargin = 6))
+        })
+
         content.addView(textView(
             getString(R.string.safety_warning),
             14f,
             false,
-            Color.rgb(153, 27, 27),
+            getColor(R.color.text_warning),
         ).apply {
             gravity = Gravity.CENTER
-            setPadding(dp(12), dp(10), dp(12), dp(10))
+            setPadding(dp(12), dp(12), dp(12), dp(12))
             background = getDrawable(R.drawable.warning_background)
         }, matchWrapParams())
 
@@ -127,23 +120,23 @@ class MainActivity : Activity() {
                 getString(R.string.support_message),
                 14f,
                 false,
-                Color.rgb(75, 85, 99),
+                getColor(R.color.text_secondary),
             ).apply {
                 gravity = Gravity.CENTER_VERTICAL
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f))
 
             addView(ImageView(this@MainActivity).apply {
                 setImageResource(R.drawable.ic_heart)
-                setColorFilter(Color.rgb(255, 94, 91))
+                setColorFilter(getColor(R.color.donate_accent))
                 background = circleDrawable(Color.WHITE)
-                setPadding(dp(8), dp(8), dp(8), dp(8))
+                setPadding(resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8))
                 isClickable = true
                 isFocusable = true
                 contentDescription = getString(R.string.support_development)
                 setOnClickListener { openDonatePage() }
             }, LinearLayout.LayoutParams(
-                dp(44),
-                dp(44),
+                resources.getDimensionPixelSize(R.dimen.touch_target_min),
+                resources.getDimensionPixelSize(R.dimen.touch_target_min),
             ))
         }
     }
@@ -161,15 +154,16 @@ class MainActivity : Activity() {
             isClickable = true
             isFocusable = true
             this.contentDescription = contentDescription
-            setPadding(dp(10), dp(14), dp(10), dp(14))
+            setPadding(dp(12), dp(14), dp(12), dp(14))
             background = getDrawable(backgroundRes)
             setOnClickListener(onClick)
 
             addView(ImageView(this@MainActivity).apply {
                 setImageResource(iconRes)
-            }, LinearLayout.LayoutParams(dp(34), dp(34)))
+            }, LinearLayout.LayoutParams(dp(36), dp(36)))
 
             addView(textView(label, 16f, true, Color.WHITE).apply {
+                tag = PRIMARY_LABEL_TAG
                 gravity = Gravity.CENTER
                 includeFontPadding = true
                 maxLines = 1
@@ -182,7 +176,7 @@ class MainActivity : Activity() {
         return LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER
-            setPadding(dp(10), dp(8), dp(10), dp(8))
+            setPadding(resources.getDimensionPixelSize(R.dimen.space_12), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_12), resources.getDimensionPixelSize(R.dimen.space_8))
             background = getDrawable(R.drawable.button_secondary_background)
 
             addView(iconView(R.drawable.ic_clock, Color.rgb(37, 99, 235), Color.rgb(219, 234, 254)))
@@ -192,7 +186,7 @@ class MainActivity : Activity() {
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(10), 0, 0, 0)
 
-                addView(textView(getString(R.string.seconds), 13f, true, Color.rgb(75, 85, 99)))
+                addView(textView(getString(R.string.seconds), 13f, true, getColor(R.color.text_secondary)))
 
                 delayInput = EditText(this@MainActivity).apply {
                     setText(formatDelay(ClickSettings.getDelaySeconds(this@MainActivity)))
@@ -200,7 +194,7 @@ class MainActivity : Activity() {
                     imeOptions = EditorInfo.IME_ACTION_DONE
                     setSingleLine(true)
                     textSize = 20f
-                    setTextColor(Color.rgb(17, 24, 39))
+                    setTextColor(getColor(R.color.text_primary))
                     setSelectAllOnFocus(true)
                     setPadding(0, 0, 0, 0)
                     background = null
@@ -223,6 +217,8 @@ class MainActivity : Activity() {
                     ViewGroup.LayoutParams.MATCH_PARENT,
                     dp(34),
                 ))
+                delayError = textView(getString(R.string.invalid_delay), 12f, false, getColor(R.color.text_error)).apply { visibility = View.GONE; setPadding(0, dp(4), 0, 0) }
+                addView(delayError, matchWrapParams())
             }, LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.MATCH_PARENT, 1f))
         }
     }
@@ -253,7 +249,7 @@ class MainActivity : Activity() {
         return LinearLayout(this).apply {
             orientation = LinearLayout.HORIZONTAL
             gravity = Gravity.CENTER_VERTICAL
-            setPadding(dp(10), dp(8), dp(10), dp(8))
+            setPadding(resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8))
             background = getDrawable(R.drawable.button_secondary_background)
             if (onClick != null) {
                 isClickable = true
@@ -269,8 +265,8 @@ class MainActivity : Activity() {
                 orientation = LinearLayout.VERTICAL
                 gravity = Gravity.CENTER_VERTICAL
                 setPadding(dp(10), 0, 0, 0)
-                addView(textView(label, 13f, true, Color.rgb(75, 85, 99)))
-                addView(textView(status, 16f, true, Color.rgb(75, 85, 99)).apply {
+                addView(textView(label, 13f, true, getColor(R.color.text_secondary)))
+                addView(textView(status, 16f, true, getColor(R.color.text_secondary)).apply {
                     tag = STATUS_TAG
                     setPadding(0, dp(4), 0, 0)
                 })
@@ -283,14 +279,23 @@ class MainActivity : Activity() {
             setImageResource(iconRes)
             setColorFilter(iconColor)
             background = circleDrawable(backgroundColor)
-            setPadding(dp(8), dp(8), dp(8), dp(8))
-            layoutParams = LinearLayout.LayoutParams(dp(44), dp(44))
+            setPadding(resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8), resources.getDimensionPixelSize(R.dimen.space_8))
+            layoutParams = LinearLayout.LayoutParams(resources.getDimensionPixelSize(R.dimen.icon_size), resources.getDimensionPixelSize(R.dimen.icon_size))
         }
     }
 
     private fun updateStatus() {
         val hasOverlayPermission = Settings.canDrawOverlays(this)
         val hasAccessibilityPermission = isAccessibilityServiceEnabled()
+        val actionState = PrimaryActionState.from(hasOverlayPermission, hasAccessibilityPermission)
+        val labelRes = when (actionState) {
+            PrimaryActionState.ENABLE_OVERLAY -> R.string.enable_overlay_permission
+            PrimaryActionState.ENABLE_ACCESSIBILITY -> R.string.enable_accessibility_service
+            PrimaryActionState.SHOW_BUTTON -> R.string.show_bubble
+        }
+        val label = getString(labelRes)
+        primaryActionButton.contentDescription = label
+        primaryActionButton.findViewWithTag<TextView>(PRIMARY_LABEL_TAG)?.text = label
 
         updatePermissionCell(
             cell = overlayPermissionCell,
@@ -316,8 +321,8 @@ class MainActivity : Activity() {
         isReady: Boolean,
     ) {
         statusText.text = status
-        statusText.setTextColor(if (isReady) Color.rgb(22, 101, 52) else Color.rgb(75, 85, 99))
-        icon.setColorFilter(if (isReady) Color.rgb(22, 101, 52) else Color.rgb(75, 85, 99))
+        statusText.setTextColor(if (isReady) Color.rgb(22, 101, 52) else getColor(R.color.text_secondary))
+        icon.setColorFilter(if (isReady) Color.rgb(22, 101, 52) else getColor(R.color.text_secondary))
         icon.background = circleDrawable(
             if (isReady) Color.rgb(220, 252, 231) else Color.rgb(243, 244, 246),
         )
@@ -330,24 +335,17 @@ class MainActivity : Activity() {
         val rawValue = delayInput.text.toString().trim()
         val value = rawValue.toFloatOrNull()
         if (value == null) {
-            Toast.makeText(this, R.string.enter_seconds, Toast.LENGTH_SHORT).show()
+            showDelayError()
             restoreSavedDelayText()
             return false
         }
         if (!ClickPolicy.isValidDelay(value)) {
-            Toast.makeText(
-                this,
-                getString(
-                    R.string.seconds_range,
-                    ClickSettings.MIN_DELAY_SECONDS.toDouble(),
-                    ClickSettings.MAX_DELAY_SECONDS.toDouble(),
-                ),
-                Toast.LENGTH_SHORT,
-            ).show()
+            showDelayError()
             restoreSavedDelayText()
             return false
         }
 
+        delayError.visibility = View.GONE
         ClickSettings.saveDelaySeconds(this, value)
         delayInput.setText(formatDelay(value))
         delayInput.setSelection(delayInput.text.length)
@@ -355,6 +353,11 @@ class MainActivity : Activity() {
             Toast.makeText(this, R.string.seconds_applied, Toast.LENGTH_SHORT).show()
         }
         return true
+    }
+
+    private fun showDelayError() {
+        delayError.text = getString(R.string.seconds_range, ClickSettings.MIN_DELAY_SECONDS.toDouble(), ClickSettings.MAX_DELAY_SECONDS.toDouble())
+        delayError.visibility = View.VISIBLE
     }
 
     private fun restoreSavedDelayText() {
@@ -404,7 +407,7 @@ class MainActivity : Activity() {
         text: String,
         size: Float,
         bold: Boolean,
-        color: Int = Color.rgb(17, 24, 39),
+        color: Int = getColor(R.color.text_primary),
     ): TextView {
         return TextView(this).apply {
             this.text = text
@@ -465,6 +468,7 @@ class MainActivity : Activity() {
         const val ICON_TAG = "icon"
         const val STATUS_TAG = "status"
         const val DONATE_URL = "https://ko-fi.com/yihongcho"
+        const val PRIMARY_LABEL_TAG = "primary_label"
     }
 }
 

@@ -39,4 +39,8 @@
     <string name="test_click_success">Test tap succeeded</string>
     <string name="test_click_failed">Test tap failed</string>
     <string name="permission_revoked_cancelled">Required permission was revoked; tapping cancelled</string>
+    <string name="enable_overlay_permission">Enable overlay permission</string>
+    <string name="enable_accessibility_service">Enable accessibility service</string>
+    <string name="invalid_delay">Enter a valid delay.</string>
+    <string name="close_bubble">Close floating button</string>
 </resources>
