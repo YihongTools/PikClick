@@ -41,8 +41,8 @@
     <string name="test_click_success">測試點擊成功</string>
     <string name="test_click_failed">測試點擊失敗</string>
     <string name="permission_revoked_cancelled">必要權限已撤銷，點擊已取消</string>
-    <string name="enable_overlay_permission">Enable overlay permission</string>
-    <string name="enable_accessibility_service">Enable accessibility service</string>
-    <string name="invalid_delay">Enter a valid delay.</string>
-    <string name="close_bubble">Close floating button</string>
+    <string name="enable_overlay_permission">啟用懸浮窗權限</string>
+    <string name="enable_accessibility_service">啟用無障礙服務</string>
+    <string name="invalid_delay">請輸入有效的延遲秒數</string>
+    <string name="close_bubble">關閉浮動按鈕</string>
 </resources>
