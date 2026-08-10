@@ -39,7 +39,7 @@ PikClick（點點皮）讓你把懸浮圓點拖到指定位置，點一下後立
 
 | 主畫面 | 懸浮圓點與倒數 |
 |:---:|:---:|
-| <img src="docs/images/pikclick-main-screen.jpg" alt="PikClick 主畫面：秒數、顯示圓點及權限狀態" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick 懸浮圓點顯示三秒倒數" width="360"> |
+| <img src="docs/images/pikclick-main-screen-v2.1.2.png" alt="PikClick v2.1.2 Hybrid H 主畫面" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick 懸浮圓點顯示三秒倒數" width="360"> |
 | 權限狀態、延遲秒數與「顯示圓點」入口 | 懸浮圓點顯示剩餘倒數，可使用紅色按鈕關閉 |
 
 ### 安裝方式
@@ -113,7 +113,7 @@ PikClick is an Android utility that places a draggable floating button over othe
 
 | Main screen | Floating button and countdown |
 |:---:|:---:|
-| <img src="docs/images/pikclick-main-screen.jpg" alt="PikClick main screen with delay, show button, and permission status" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick floating button showing a three-second countdown" width="360"> |
+| <img src="docs/images/pikclick-main-screen-v2.1.2-en.png" alt="PikClick v2.1.2 English main screen with permission status and show button" width="360"> | <img src="docs/images/pikclick-floating-countdown.jpg" alt="PikClick floating button showing a three-second countdown" width="360"> |
 | Permission status, delay input, and the show-button action | Floating countdown with a red close button |
 
 ### Installation
