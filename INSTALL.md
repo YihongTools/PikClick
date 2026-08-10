@@ -4,11 +4,11 @@
 
 Release APK 的標準分發位置：
 
-`dist/PikClick-v2.1.1-release.apk`
+`dist/PikClick-v2.1.2-release.apk`
 
 在一般 ASCII 路徑下，中間產物也會位於 `app/build/outputs/apk/release/app-release.apk`；Windows 專案路徑含非 ASCII 字元時，中間產物會改放在使用者 Gradle 快取目錄。
 
-可使用同目錄的 `PikClick-v2.1.1-release.apk.sha256` 驗證檔案完整性。
+可使用同目錄的 `PikClick-v2.1.2-release.apk.sha256` 驗證檔案完整性。
 
 ## 安裝步驟
 
