@@ -16,3 +16,7 @@ enum class PrimaryActionState {
         }
     }
 }
+
+fun shouldValidateDelayOnFocusLoss(isDelayErrorVisible: Boolean): Boolean {
+    return !isDelayErrorVisible
+}

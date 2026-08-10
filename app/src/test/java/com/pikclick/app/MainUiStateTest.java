@@ -19,4 +19,8 @@ public class MainUiStateTest {
         assertEquals(PrimaryActionState.SHOW_BUTTON,
             PrimaryActionState.from(true, true));
     }
+
+    @Test public void visibleDelayErrorIsNotImmediatelyClearedByFocusLoss() {
+        assertEquals(false, MainUiStateKt.shouldValidateDelayOnFocusLoss(true));
+    }
 }
