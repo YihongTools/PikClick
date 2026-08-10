@@ -11,5 +11,6 @@
     <dimen name="card_corner_radius">12dp</dimen>
     <dimen name="control_gap">8dp</dimen>
     <dimen name="primary_action_min_height">112dp</dimen>
+    <dimen name="delay_value_min_height">88dp</dimen>
     <dimen name="icon_size">44dp</dimen>
 </resources>

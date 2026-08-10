@@ -6,10 +6,12 @@
     <string name="bubble_shown">圓點已顯示</string>
     <string name="overlay_permission">懸浮窗</string>
     <string name="accessibility_permission">無障礙</string>
+    <string name="permission_status">權限狀態</string>
     <string name="safety_warning">安全警告：請只在你確認的位置使用點擊功能，避免誤觸付款、送出、刪除或其他不可復原的操作。</string>
     <string name="support_message">如果這些小工具曾經為你節省了一些時間，或讓你的使用體驗更便利，歡迎支持持續開發。</string>
     <string name="support_development">支持開發</string>
     <string name="seconds">秒數</string>
+    <string name="seconds_unit">秒</string>
     <string name="go_to_settings">去設定</string>
     <string name="authorized">已授權</string>
     <string name="authorize">去授權</string>
