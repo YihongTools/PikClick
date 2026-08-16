@@ -53,3 +53,8 @@
 - [ ] Android 13／API 33
 - [ ] Android 15／API 35
 - [ ] 至少一台 Samsung、小米／POCO 或其他具積極省電機制的實機
+- [ ] Run `tools/Verify-GitHubRelease.ps1 -Run` against the exact repository, tag, and APK asset.
+- [ ] Confirm the fresh download hash equals the local APK hash and GitHub Asset API `sha256:<64 hex>` digest.
+- [ ] If the exact `.sha256` asset exists, confirm its PikClick two-space format value equals the local APK hash.
+- [ ] Treat exit code 20/21 as BLOCKED or NOT VERIFIED; do not publish a success claim.- [x] v2.1.1 canonical published APK recorded: `afc8e0925ba64d0aba3fb76dcb2a8cdf4c42c26d7de0f08c38bb9994891d72c0` at tag commit `b35bd3a01f9771c99b9b5eaf65651ac7b857d2fd`.
+- [ ] Do not assume a same-version local `dist/` APK is the canonical published artifact; verify local-to-Release identity separately.

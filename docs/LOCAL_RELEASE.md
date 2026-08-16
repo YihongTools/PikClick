@@ -56,3 +56,27 @@ CI 明確傳入 `-PunsignedRelease=true`，即使 runner 環境改變，也不�
 If the signing key or either password is unavailable, stop the release. Do not generate a replacement key for an update: Android will reject it as a different signer.
 
 若私鑰或任一密碼無法取得，必須停止發布。更新既有 App 時不可改用新金鑰，否則 Android 會視為不同簽署者並拒絕更新。
+
+## 4. Verify the published Release artifact
+
+After uploading the signed APK and optional `.sha256` asset, run this read-only verifier from the repository root:
+
+```powershell
+powershell.exe -NoProfile -ExecutionPolicy Bypass -File .\tools\Verify-GitHubRelease.ps1 `
+  -Run -Repository YihongTools/PikClick -Tag v2.1.1 `
+  -AssetName PikClick-v2.1.1-release.apk `
+  -LocalApkPath .\dist\PikClick-v2.1.1-release.apk
+```
+
+`PASS` (exit code 0) requires both `LOCAL_SHA256 == DOWNLOADED_SHA256` and `DOWNLOADED_SHA256 == GITHUB_ASSET_DIGEST`. If the exact `.sha256` asset exists, its value must also equal `LOCAL_SHA256`. The verifier downloads into a new temporary directory on every run and never uses the API digest as a substitute for hashing the downloaded APK.
+
+Exit codes: `0` PASS, `10` FAIL, `20` BLOCKED, `21` NOT VERIFIED. A blocked network, API, missing asset, or failed download is not a pass.
+## 5. Canonical v2.1.1 published artifact
+
+The verified GitHub Release asset is the canonical published artifact for v2.1.1:
+
+- Version: `v2.1.1`
+- Tag commit: `b35bd3a01f9771c99b9b5eaf65651ac7b857d2fd`
+- Canonical published APK SHA-256: `afc8e0925ba64d0aba3fb76dcb2a8cdf4c42c26d7de0f08c38bb9994891d72c0`
+
+A same-version APK currently present in the repository's local `dist/` directory is not necessarily the canonical published artifact. The canonical artifact is the verified GitHub Release asset; local APK identity must be checked explicitly.
