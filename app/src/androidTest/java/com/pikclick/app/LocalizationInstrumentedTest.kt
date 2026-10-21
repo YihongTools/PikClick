@@ -2,6 +2,7 @@ package com.pikclick.app
 
 import android.content.Context
 import android.content.res.Configuration
+import android.os.LocaleList
 import androidx.test.core.app.ApplicationProvider
 import androidx.test.ext.junit.runners.AndroidJUnit4
 import org.junit.Assert.assertEquals
@@ -18,6 +19,16 @@ class LocalizationInstrumentedTest {
         val localized = context.forLocale("zh-Hant-TW")
         assertEquals("顯示圓點", localized.getString(R.string.show_bubble))
         assertEquals("無障礙", localized.getString(R.string.accessibility_permission))
+    }
+
+    @Test
+    fun keepsTraditionalChineseWhenEnglishIsTheSecondarySystemLocale() {
+        val configuration = Configuration(context.resources.configuration).apply {
+            setLocales(LocaleList.forLanguageTags("zh-Hant-TW,en-US"))
+        }
+        val localized = context.createConfigurationContext(configuration)
+        assertEquals("點點皮", localized.getString(R.string.screen_title))
+        assertEquals("顯示圓點", localized.getString(R.string.show_bubble))
     }
 
     @Test

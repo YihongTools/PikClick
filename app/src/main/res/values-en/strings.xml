@@ -45,4 +45,8 @@
     <string name="enable_accessibility_service">Enable accessibility service</string>
     <string name="invalid_delay">Enter a valid delay.</string>
     <string name="close_bubble">Close floating button</string>
+    <string name="screen_title">PikClick</string>
+    <string name="delay_description">Time between the two taps</string>
+    <string name="operation_hint">Tap the floating button for the first tap.\nThe second tap runs automatically after the countdown.</string>
+    <string name="safety_title">Safety reminder</string>
 </resources>

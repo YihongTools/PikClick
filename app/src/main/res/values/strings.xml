@@ -7,7 +7,7 @@
     <string name="overlay_permission">懸浮窗</string>
     <string name="accessibility_permission">無障礙</string>
     <string name="permission_status">權限狀態</string>
-    <string name="safety_warning">安全警告：請只在你確認的位置使用點擊功能，避免誤觸付款、送出、刪除或其他不可復原的操作。</string>
+    <string name="safety_warning">請確認點擊位置，避免誤觸付款、送出、刪除或其他不可復原操作。</string>
     <string name="support_message">如果這些小工具曾經為你節省了一些時間，或讓你的使用體驗更便利，歡迎支持持續開發。</string>
     <string name="support_development">支持開發</string>
     <string name="seconds">秒數</string>
@@ -45,4 +45,8 @@
     <string name="enable_accessibility_service">啟用無障礙服務</string>
     <string name="invalid_delay">請輸入有效的延遲秒數</string>
     <string name="close_bubble">關閉浮動按鈕</string>
+    <string name="screen_title">點點皮</string>
+    <string name="delay_description">兩次點擊之間的等待時間</string>
+    <string name="operation_hint">點選圓點執行第一次點擊\n倒數結束後自動執行第二次點擊</string>
+    <string name="safety_title">安全提醒</string>
 </resources>
